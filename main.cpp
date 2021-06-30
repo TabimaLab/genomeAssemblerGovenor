@@ -12,11 +12,13 @@
 
 
 int main(int argc, char *argv[]){
-  char testCmd[] = "spades.py";
-  char outDir[] = "-o ./";
+  char testCmd[] = "unicycler";
+  char outDir[] = "-o unicyclerTest";
+  char file1Indicator[] = "-1";
+  char file2Indicator[] = "-2";
   char file1[] = "-1 NB0720_010_S38_R1_001.fastq.gz";
   char file2[] = "-2 NB0720_010_S38_R2_001.fastq.gz";
-  char *procArgs[] = {outDir, file1, file2, NULL};
+  char *procArgs[] = {file1, file2, outDir, NULL};
   std::cout << "B4 proccess" << std::endl;
   
   createProcess(testCmd, procArgs);

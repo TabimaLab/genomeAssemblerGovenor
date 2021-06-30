@@ -16,29 +16,33 @@
 
 
 pid_t createProcess(char inCmd[], char *inArg[]){
+  // Casts inCmd[] to cmd[50] //
   int i = 0;
   char cmd[50];
-
-  while(inCmd[i] != '\0'){  // Casts into character array "string"
+  while(inCmd[i] != '\0'){ // Iterate through inCmd[] and copy onto cmd[] until \0 is met, then add \0 onto end of cmd[]
     cmd[i] = inCmd[i];
     i++; 
   }
   cmd[i] = '\0';
   
-  int j = 0;
+  // Casts *inArg[] to child_args[] //
+  int j = 1;
   char *child_args[10];
-  while(inArg[j] != NULL){
-    if(j == 0){child_args[0] = cmd;}
-    child_args[j] = inArg[j];   
+  child_args[0] = cmd;
+  while(inArg[j-1] != NULL){            // Iterate through *inArg[] and copy to child_args[] until NULL is met, then add NULL to onto end of child_args[]
+    child_args[j] = inArg[j-1];   
     j++;
   }
-  child_args[j] = NULL;
+  child_args[j+1] = NULL;
+ 
+  // Debug child_args[] //
+  std::cout << inArg[0] << std::endl;
   std::cout << child_args[0] << std::endl;
   std::cout << child_args[1] << std::endl;
   std::cout << child_args[2] << std::endl;
   std::cout << child_args[3] << std::endl;
 
-  // Starts New Process Here
+  // Starts New Process Here //
   pid_t child_pid = fork();
   
   switch(child_pid){
@@ -46,7 +50,7 @@ pid_t createProcess(char inCmd[], char *inArg[]){
       break;
 
     case 0:   // I am the child.
-      //execvp(cmd, child_args);
+      execvp(cmd, child_args);
       #if defined(__cpluplus) || defined(__cplusplus)
       std::terminate();
       #else
