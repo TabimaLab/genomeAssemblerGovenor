@@ -37,11 +37,11 @@ pid_t createProcess(char inCmd[], char *inArg[]){
  
   // Debug child_args[] //
   std::cout << inArg[0] << std::endl;
-  std::cout << child_args[0] << std::endl;
-  std::cout << child_args[1] << std::endl;
-  std::cout << child_args[2] << std::endl;
-  std::cout << child_args[3] << std::endl;
-
+  int k = 0;
+  while(child_args[k] != NULL){
+    std::cout << child_args[k] << std::endl;
+    k++;
+  }
   // Starts New Process Here //
   pid_t child_pid = fork();
   
