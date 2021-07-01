@@ -3,7 +3,7 @@
 // By: Cameron McIlvenna                                     //
 // Date : 6/29/2021                                          //
 ///////////////////////////////////////////////////////////////
-#include "createProcess.h"  // linkage #include
+#include "createProcess.h"  // linkage header file between this file and main.cpp
 #include <iostream>         // cout << cin << endl
 #include <unistd.h>         // execv(), fork()
 #include <sys/types.h>      // pid_t
@@ -29,18 +29,21 @@ pid_t createProcess(char inCmd[], char *inArg[]){
   int j = 1;
   char *child_args[10];
   child_args[0] = cmd;
-  while(inArg[j-1] != NULL){            // Iterate through *inArg[] and copy to child_args[] until NULL is met, then add NULL to onto end of child_args[]
+  while(inArg[j-1] != NULL){ // Iterate through *inArg[] and copy to child_args[] until NULL is met, then add NULL to onto end of child_args[]
     child_args[j] = inArg[j-1];   
     j++;
   }
   child_args[j+1] = NULL;
  
   // Debug child_args[] //
-  std::cout << inArg[0] << std::endl;
-  int k = 0;
-  while(child_args[k] != NULL){
-    std::cout << child_args[k] << std::endl;
-    k++;
+  bool debugChildArg = true;
+  if(debugChildArg){
+    std::cout << inArg[0] << std::endl;
+    int k = 0;
+    while(child_args[k] != NULL){
+      std::cout << child_args[k] << std::endl;
+      k++;
+    }
   }
   // Starts New Process Here //
   pid_t child_pid = fork();
