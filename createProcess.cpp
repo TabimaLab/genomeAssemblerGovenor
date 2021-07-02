@@ -11,7 +11,6 @@ extern "C" {
 #include <unistd.h>         // execv(), fork()
 #include <sys/types.h>      // pid_t
 #include <sys/wait.h>       // waitpid()
-#include <string.h>
 #include <fstream>
 #if defined(__cplusplus) || defined(_cplusplus)
 #include <exception>        // terminate()
@@ -50,6 +49,7 @@ pid_t createProcess(char inCmd[], char *inArg[]){
       k++;
     }
   }
+
   // Starts New Process Here //
   pid_t child_pid = fork();
 
@@ -60,11 +60,48 @@ pid_t createProcess(char inCmd[], char *inArg[]){
       break;
 
     case 0:   // I am the child.
-      char mkDirStr[] = "mkdir -p";
-      char touchCmd[] = "touch";
-      char *dirCopy = child_args[6];
-      char *logDir[2] = {strcat(mkDirStr, strcat(dirCopy, "/stdIOLogs")), NULL};  // Not working bugged
-      char *logOut[2] = {strcat(touchCmd, strcat(dirCopy,"/stdOutLog")), NULL};
+      char mkDirStr[] = "mkdir -p ";
+      char touchCmd[] = "touch ";
+      char logDirName[] = "/stdIOLogs";
+      char logFileName[] = "/stdOutLog";
+      char *dirClone = child_args[6];
+      char logDir[100]; 
+      int l = 0; int m = 0;
+      while(mkDirStr[l] != '\0'){
+        logDir[l] = mkDirStr[l];    
+        l++;
+      }
+      while(child_args[6][m] != '\0'){
+        logDir[l] = dirClone[m];
+        l++; m++;
+      }
+      m = 0;
+      while(logDirName[m] != '\0'){
+        logDir[l] = logDirName[m];
+        l++; m++;
+      }
+      l = 0; m = 0;
+      char logOut[100]; 
+      while(touchCmd[l] != '\0'){
+        logOut[l] = touchCmd[l];
+        l++;
+      }
+      while(child_args[6][m] != '\0'){
+        logOut[l] = dirClone[m];
+        l++; m++;
+      }
+      m = 0;
+      while(logDirName[m] != '\0'){
+        logOut[l] = logDirName[m];
+        l++; m++;
+      }
+      m = 0;
+      while(logFileName[m] != '\0'){
+        logOut[l] = logFileName[m];
+        l++; m++;
+      }
+      system(logDir);
+      system(logOut);
       execProcess(cmd, child_args);
   }
 
