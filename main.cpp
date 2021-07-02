@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
   std::cout << "B4 proccess" << std::endl;
   
   createProcess(testCmd, procArgs);
-  createProcess(testCmd, procArgs); 
+  //createProcess(testCmd, procArgs); 
   std::cout << "After process" << std::endl;
 
 }

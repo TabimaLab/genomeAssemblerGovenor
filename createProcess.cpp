@@ -1,13 +1,18 @@
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 // Creates Process                                           //
 // By: Cameron McIlvenna                                     //
 // Date : 6/29/2021                                          //
 ///////////////////////////////////////////////////////////////
 #include "createProcess.h"  // linkage header file between this file and main.cpp
+extern "C" {
+  #include "execute.h"
+}
 #include <iostream>         // cout << cin << endl
 #include <unistd.h>         // execv(), fork()
 #include <sys/types.h>      // pid_t
 #include <sys/wait.h>       // waitpid()
+#include <string.h>
+#include <fstream>
 #if defined(__cplusplus) || defined(_cplusplus)
 #include <exception>        // terminate()
 #else
@@ -36,7 +41,7 @@ pid_t createProcess(char inCmd[], char *inArg[]){
   child_args[j+1] = NULL;
  
   // Debug child_args[] //
-  bool debugChildArg = true;
+  bool debugChildArg = false;
   if(debugChildArg){
     std::cout << inArg[0] << std::endl;
     int k = 0;
@@ -47,18 +52,20 @@ pid_t createProcess(char inCmd[], char *inArg[]){
   }
   // Starts New Process Here //
   pid_t child_pid = fork();
-  
+
+  // Creates folder in output path for program for stdout logs //
+
   switch(child_pid){
     case -1:  // I am the parent and failed to turn into process.
       break;
 
     case 0:   // I am the child.
-      execvp(cmd, child_args);
-      #if defined(__cpluplus) || defined(__cplusplus)
-      std::terminate();
-      #else
-        abort()
-      #endif
+      char mkDirStr[] = "mkdir -p";
+      char touchCmd[] = "touch";
+      char *dirCopy = child_args[6];
+      char *logDir[2] = {strcat(mkDirStr, strcat(dirCopy, "/stdIOLogs")), NULL};  // Not working bugged
+      char *logOut[2] = {strcat(touchCmd, strcat(dirCopy,"/stdOutLog")), NULL};
+      execProcess(cmd, child_args);
   }
 
 
