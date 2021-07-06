@@ -4,9 +4,7 @@
 // Date : 6/29/2021                                          //
 ///////////////////////////////////////////////////////////////
 #include "createProcess.h"  // linkage header file between this file and main.cpp
-extern "C" {
-  #include "execute.h"
-}
+#include <cstdio>           // freopen() change the stdout of the forked child to a log document rather than stdouting to the terminal
 #include <iostream>         // cout << cin << endl
 #include <unistd.h>         // execv(), fork()
 #include <sys/types.h>      // pid_t
@@ -31,7 +29,7 @@ pid_t createProcess(char *inCmd, char *inArg[]){
   
   // Casts *inArg[] to child_args[] //
   int j = 1;
-  char *child_args[10];
+  char *child_args[40];
   child_args[0] = cmd;
   while(inArg[j-1] != NULL){ // Iterate through *inArg[] and copy to child_args[] until NULL is met, then add NULL to onto end of child_args[]
     child_args[j] = inArg[j-1];   
@@ -42,7 +40,7 @@ pid_t createProcess(char *inCmd, char *inArg[]){
   // Debug child_args[] //
   bool debugChildArg = false;
   if(debugChildArg){
-    std::cout << inArg[0] << std::endl;
+    //std::cout << cmd << std::endl;
     int k = 0;
     while(child_args[k] != NULL){
       std::cout << child_args[k] << std::endl;
@@ -60,26 +58,16 @@ pid_t createProcess(char *inCmd, char *inArg[]){
       break;
 
     case 0:   // I am the child.
-      char logDir[100]; 
-      char logOut[100];
-      // Creates command to creat /stdIOLogs folder // 
-      strcat(logDir, "mkdir -p ");
-      strcat(logDir, child_args[6]);
-      strcat(logDir, "/stdIOLogs");
-      // Creates command to create stdOutLog file in the stdIOLogs folder //
-      strcat(logOut, "touch ");
-      strcat(logOut, child_args[6]);
-      strcat(logOut, "/stdIOLogs");
-      strcat(logOut, "/stdOutLog");
-
+      std::string logDir = "mkdir -p " + (std::string)child_args[6] + "/stdIOLogs";
+      std::string logOut = (std::string)child_args[6] + "/stdIOLogs/stdOutLog"; 
       // Creates system folder for process logs //
-      system(logDir);
-      system(logOut);
+      system(logDir.c_str());
+      // Creats stdOutLog file for created process to store its standard output into a log
+      freopen(logOut.c_str(), "a", stdout);
 
       // Turns forked proccess into desired process //
-      execProcess(cmd, child_args);
+      execvp(cmd, child_args); 
   }
-
 
   return child_pid;
 }
