@@ -17,9 +17,9 @@ extern "C" {
 #else
 #include <cstdlib>          // abort()
 #endif
+#include <string.h>         //strcat
 
-
-pid_t createProcess(char inCmd[], char *inArg[]){
+pid_t createProcess(char *inCmd, char *inArg[]){
   // Casts inCmd[] to cmd[50] //
   int i = 0;
   char cmd[50];
@@ -60,48 +60,23 @@ pid_t createProcess(char inCmd[], char *inArg[]){
       break;
 
     case 0:   // I am the child.
-      char mkDirStr[] = "mkdir -p ";
-      char touchCmd[] = "touch ";
-      char logDirName[] = "/stdIOLogs";
-      char logFileName[] = "/stdOutLog";
-      char *dirClone = child_args[6];
       char logDir[100]; 
-      int l = 0; int m = 0;
-      while(mkDirStr[l] != '\0'){
-        logDir[l] = mkDirStr[l];    
-        l++;
-      }
-      while(child_args[6][m] != '\0'){
-        logDir[l] = dirClone[m];
-        l++; m++;
-      }
-      m = 0;
-      while(logDirName[m] != '\0'){
-        logDir[l] = logDirName[m];
-        l++; m++;
-      }
-      l = 0; m = 0;
-      char logOut[100]; 
-      while(touchCmd[l] != '\0'){
-        logOut[l] = touchCmd[l];
-        l++;
-      }
-      while(child_args[6][m] != '\0'){
-        logOut[l] = dirClone[m];
-        l++; m++;
-      }
-      m = 0;
-      while(logDirName[m] != '\0'){
-        logOut[l] = logDirName[m];
-        l++; m++;
-      }
-      m = 0;
-      while(logFileName[m] != '\0'){
-        logOut[l] = logFileName[m];
-        l++; m++;
-      }
+      char logOut[100];
+      // Creates command to creat /stdIOLogs folder // 
+      strcat(logDir, "mkdir -p ");
+      strcat(logDir, child_args[6]);
+      strcat(logDir, "/stdIOLogs");
+      // Creates command to create stdOutLog file in the stdIOLogs folder //
+      strcat(logOut, "touch ");
+      strcat(logOut, child_args[6]);
+      strcat(logOut, "/stdIOLogs");
+      strcat(logOut, "/stdOutLog");
+
+      // Creates system folder for process logs //
       system(logDir);
       system(logOut);
+
+      // Turns forked proccess into desired process //
       execProcess(cmd, child_args);
   }
 

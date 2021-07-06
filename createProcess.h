@@ -9,5 +9,4 @@
 
   pid_t createProcess(char inCmd[], char *inArg[]);
 
-
 #endif

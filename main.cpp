@@ -24,10 +24,8 @@ int main(int argc, char *argv[]){
   char file1P[] = "NB0720_010_S38_R1_001.fastq.gz";
   char file2P[] = "NB0720_010_S38_R2_001.fastq.gz";
   char *procArgs[] = {file1, file1P, file2, file2P, outDir, outDirP, NULL};
-  std::cout << "B4 proccess" << std::endl;
   
   createProcess(testCmd, procArgs);
   //createProcess(testCmd, procArgs); 
-  std::cout << "After process" << std::endl;
 
 }
