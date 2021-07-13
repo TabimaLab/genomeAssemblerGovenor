@@ -41,23 +41,28 @@ private:
     
     // Casts *inArg[] to child_args[] //
     int j = 1;
-    char *child_args[100];
+    char *child_args[200];
     child_args[0] = cmd;
     while(inArg[j-1] != NULL){ // Iterate through *inArg[] and copy to child_args[] until NULL is met, then add NULL to onto end of child_args[]
       child_args[j] = inArg[j-1];   
       j++;
     }
-    child_args[j+1] = NULL;
+    child_args[j] = NULL;
    
     // Debug child_args[] //
-    bool debugChildArg = false;
+    bool debugChildArg = true;
     if(debugChildArg){
+      /*
       //std::cout << cmd << std::endl;
-      int k = 0;
-      while(child_args[k] != NULL){
-        std::cout << child_args[k] << std::endl;
-        k++;
-      }
+      std::cout << child_args[0] << std::endl; 
+      std::cout << child_args[1] << std::endl; 
+      std::cout << child_args[2] << std::endl; 
+      std::cout << child_args[3] << std::endl; 
+      std::cout << child_args[4] << std::endl; 
+      std::cout << child_args[5] << std::endl; 
+      std::cout << child_args[6] << std::endl; 
+      std::cout << child_args[7] << std::endl; 
+      */
     }
 
     // Starts New Process Here //
@@ -78,7 +83,7 @@ private:
         freopen(logOut.c_str(), "a", stdout);
 
         // Turns forked proccess into desired process //
-        execvp(cmd, child_args); 
+        std::cout << "Did I run? " << execvp(cmd, child_args) << std::endl; 
     }
     whatAmI = cmd;
     myID = child_pid;
