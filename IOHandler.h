@@ -9,6 +9,7 @@
 #include <iostream>                 // std::cout and std::cin
 #include <string>                   // std::string
 
+int* mainMenu();
 std::string* assemblyPrompt();
 
 #endif

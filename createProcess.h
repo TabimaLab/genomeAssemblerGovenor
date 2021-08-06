@@ -21,12 +21,17 @@ public:
   std::string whatAmI;
   std::string logPath;
   pid_t myID;
-  pid_t gPid;
 
   process(char *cmdArg, char *argsIn[]){
     whatAmI = "Not Assigned";
     logPath = "No Path Yet";
-    createProcess(cmdArg, argsIn);
+    myID = createProcess(cmdArg, argsIn);
+  }
+  void kill(){
+    std::string temp = "kill -15 -" + std::to_string(myID); 
+    const char *temp2 = temp.c_str();
+    std::cout << temp << std::endl;
+    system(temp2);
   }
 private:
   pid_t createProcess(char *inCmd, char *inArg[]){
@@ -53,8 +58,8 @@ private:
     bool debugChildArg = true;
     if(debugChildArg){
       /*
-      //std::cout << cmd << std::endl;
-      std::cout << child_args[0] << std::endl; 
+        //std::cout << cmd << std::endl;
+        std::cout << child_args[0] << std::endl; 
       std::cout << child_args[1] << std::endl; 
       std::cout << child_args[2] << std::endl; 
       std::cout << child_args[3] << std::endl; 
@@ -66,7 +71,7 @@ private:
     }
 
     // Starts New Process Here //
-    pid_t child_pid = fork();
+    pid_t child_pid = fork();    
 
     // Creates folder in output path for program for stdout logs //
 
@@ -75,6 +80,7 @@ private:
         break;
 
       case 0:   // I am the child.
+        setpgid(child_pid, 0);            // Sets the gpid_t for the called process for later cancellation
         std::string logDir = "mkdir -p " + (std::string)child_args[6] + "/stdIOLogs";
         std::string logOut = (std::string)child_args[6] + "/stdIOLogs/stdOutLog"; 
         // Creates system folder for process logs //
@@ -83,11 +89,9 @@ private:
         freopen(logOut.c_str(), "a", stdout);
 
         // Turns forked proccess into desired process //
-        std::cout << "Did I run? " << execvp(cmd, child_args) << std::endl; 
+        execvp(cmd, child_args); 
     }
     whatAmI = cmd;
-    myID = child_pid;
-    gPid = setpgid(0, 0);
-    return child_pid;
+    return child_pid; 
   }
 };
