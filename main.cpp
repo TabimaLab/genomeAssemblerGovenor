@@ -32,9 +32,7 @@ int cpuDiff = 0;
 int status;
 
 int main(int argc, char *argv[]){
-  std::string tmp = assemblyPrompt();
   char *testCmd = (char*) assemblyPrompt().c_str();
-  //char testCmd[] = "spades.py";
   char outDir[] = "-o";
   char outDirP[] = "Threads_Test_4";
   char file1Indicator[] = "-1";
@@ -46,7 +44,6 @@ int main(int argc, char *argv[]){
   char threadFlag[] = "-t";
   char threadAlloc[] = "4";
   char *procArgs[] = {file1, file1P, file2, file2P, outDir, argv[1], threadFlag, argv[2],NULL};
-  
   
   cpuStart = clock(); // Cpu start time
   gettimeofday(&myTimer, NULL); // Start time
@@ -65,5 +62,5 @@ int main(int argc, char *argv[]){
   std::cout << "Time elapsed: " << timeDiffSec << " seconds, and " << timeDiffMicro << " microseconds." << std::endl;
   std::cout << "Cpu ticks elapsed: " << cpuEnd - cpuStart << std::endl;
   std::cout << "Threads available: " << std::thread::hardware_concurrency() << std::endl;
-  
+ 
 }

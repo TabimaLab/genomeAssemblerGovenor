@@ -12,6 +12,7 @@
 
 int* mainMenu();
 std::string assemblyPrompt();
+char** argsPrompt();
 void inFilePrompt(std::string cmd);
 int grabNum();
 

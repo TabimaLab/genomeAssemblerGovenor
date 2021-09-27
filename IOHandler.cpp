@@ -23,25 +23,26 @@ std::string assemblyPrompt(){
   }
 
   if(choiceNum == 1){
-    inFilePrompt("unicycler");
+    return "unicycler";
   }else if(choiceNum == 2){
-    inFilePrompt("spades.py");
+    return "spades.py";
   }else{
     system("clear");
     std::cout << "Please enter one of the choices provided\n--------------------------------------------------" << std::endl;
     assemblyPrompt();
   }
-  std::string cat = "cat"; 
-  return cat; 
 }
 
+char** argsPrompt(){
+
+}
 void inFilePrompt(std::string cmd){
   int input;
   system("clear");
   std::vector <std::string> cmdVec = {cmd}; 
   std::cout << "Are the read inputs interlaced (one file), or Double ended." << std::endl;   
   std::cout << "1 -- Interlaced\n2 -- Double ended" << std::endl;
-  return;
+  //return;
 }
 
 int grabNum(){
