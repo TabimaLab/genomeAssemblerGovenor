@@ -13,14 +13,7 @@ std::string assemblyPrompt(){
   int choiceNum;
   std::cout << "Please pick the assembler you wish to use:\n--------------------------------------------------" << std::endl;
   std::cout << "1 -- Unicycler assembly\n2 -- SPADES assembly" << std::endl;
-  while(!(std::cin >> choiceNum)){
-    std::cout << "ERROR: please enter an integer value: ";
-
-    // Clear input stream //
-    std::cin.clear();
-    // Discard the previous input //
-    std::cin.ignore(123, '\n');
-  }
+  choiceNum = grabNum();
 
   if(choiceNum == 1){
     return "unicycler";
@@ -29,20 +22,26 @@ std::string assemblyPrompt(){
   }else{
     system("clear");
     std::cout << "Please enter one of the choices provided\n--------------------------------------------------" << std::endl;
-    assemblyPrompt();
+    return assemblyPrompt();
   }
 }
 
 char** argsPrompt(){
-
+  char **retArray = new char*[2];
+  char temp[] = "pizza";
+  retArray[0] = temp;
+  retArray[1] = NULL;
+  return retArray;
 }
-void inFilePrompt(std::string cmd){
+
+int inFilePrompt(std::string cmd){
   int input;
   system("clear");
   std::vector <std::string> cmdVec = {cmd}; 
   std::cout << "Are the read inputs interlaced (one file), or Double ended." << std::endl;   
   std::cout << "1 -- Interlaced\n2 -- Double ended" << std::endl;
-  //return;
+  input = grabNum();
+  return input;
 }
 
 int grabNum(){
@@ -55,6 +54,5 @@ int grabNum(){
     // Discard the previous input //
     std::cin.ignore(123, '\n');
   }
-  
   return choiceNum;
 }

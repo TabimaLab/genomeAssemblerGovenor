@@ -13,7 +13,7 @@
 int* mainMenu();
 std::string assemblyPrompt();
 char** argsPrompt();
-void inFilePrompt(std::string cmd);
+int inFilePrompt(std::string cmd);
 int grabNum();
 
 #endif
