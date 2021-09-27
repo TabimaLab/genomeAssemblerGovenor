@@ -32,8 +32,9 @@ int cpuDiff = 0;
 int status;
 
 int main(int argc, char *argv[]){
-  //char *testCmd = (char*)assemblyPrompt()->c_str();
-  char testCmd[] = "testSkript";
+  std::string tmp = assemblyPrompt();
+  char *testCmd = (char*) assemblyPrompt().c_str();
+  //char testCmd[] = "spades.py";
   char outDir[] = "-o";
   char outDirP[] = "Threads_Test_4";
   char file1Indicator[] = "-1";
@@ -46,16 +47,14 @@ int main(int argc, char *argv[]){
   char threadAlloc[] = "4";
   char *procArgs[] = {file1, file1P, file2, file2P, outDir, argv[1], threadFlag, argv[2],NULL};
   
-  cpuStart = clock();
-  gettimeofday(&myTimer, NULL);
-  processVector.emplace_back(new process(testCmd, procArgs));
-  std::cout << "Process ID: " << processVector[0]->myID << std::endl;
   
-  //processVector[0]->kill(); 
+  cpuStart = clock(); // Cpu start time
+  gettimeofday(&myTimer, NULL); // Start time
+  processVector.emplace_back(new process(testCmd, procArgs));
 
-  waitpid(processVector[0]->myID, &status, 0);
-  gettimeofday(&secondTimer, NULL);
-  cpuEnd = clock();
+  waitpid(processVector[0]->myID, &status, 0); // Wait for the process to die
+  gettimeofday(&secondTimer, NULL); // End time
+  cpuEnd = clock(); // Cpu end time
   
   timeDiffSec = abs(secondTimer.tv_sec - myTimer.tv_sec);
   timeDiffMicro = abs(secondTimer.tv_usec - myTimer.tv_usec);
@@ -66,4 +65,5 @@ int main(int argc, char *argv[]){
   std::cout << "Time elapsed: " << timeDiffSec << " seconds, and " << timeDiffMicro << " microseconds." << std::endl;
   std::cout << "Cpu ticks elapsed: " << cpuEnd - cpuStart << std::endl;
   std::cout << "Threads available: " << std::thread::hardware_concurrency() << std::endl;
+  
 }

@@ -8,8 +8,11 @@
 #define IO_HANDLER_H
 #include <iostream>                 // std::cout and std::cin
 #include <string>                   // std::string
+#include <vector>                   // std::vector
 
 int* mainMenu();
-std::string* assemblyPrompt();
+std::string assemblyPrompt();
+void inFilePrompt(std::string cmd);
+int grabNum();
 
 #endif

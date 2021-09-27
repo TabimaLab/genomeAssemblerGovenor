@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 // Creates Process                                           //
 // By: Cameron McIlvenna                                     //
 // Date : 6/29/2021                                          //
@@ -53,22 +53,6 @@ private:
       j++;
     }
     child_args[j] = NULL;
-   
-    // Debug child_args[] //
-    bool debugChildArg = true;
-    if(debugChildArg){
-      /*
-        //std::cout << cmd << std::endl;
-        std::cout << child_args[0] << std::endl; 
-      std::cout << child_args[1] << std::endl; 
-      std::cout << child_args[2] << std::endl; 
-      std::cout << child_args[3] << std::endl; 
-      std::cout << child_args[4] << std::endl; 
-      std::cout << child_args[5] << std::endl; 
-      std::cout << child_args[6] << std::endl; 
-      std::cout << child_args[7] << std::endl; 
-      */
-    }
 
     // Starts New Process Here //
     pid_t child_pid = fork();    
