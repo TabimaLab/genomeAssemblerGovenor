@@ -11,14 +11,16 @@
 
 std::string assemblyPrompt(){
   int choiceNum;
+  std::string unicycler = "unicycler";
+  std::string spades = "spades.py";
   std::cout << "Please pick the assembler you wish to use:\n--------------------------------------------------" << std::endl;
   std::cout << "1 -- Unicycler assembly\n2 -- SPADES assembly" << std::endl;
   choiceNum = grabNum();
 
   if(choiceNum == 1){
-    return "unicycler";
+    return unicycler;
   }else if(choiceNum == 2){
-    return "spades.py";
+    return spades;
   }else{
     system("clear");
     std::cout << "Please enter one of the choices provided\n--------------------------------------------------" << std::endl;

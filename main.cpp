@@ -32,10 +32,19 @@ int cpuDiff = 0;
 int status;
 
 int main(int argc, char *argv[]){
-  char *testCmd = (char*) assemblyPrompt().c_str();
+  std::cout << "Please enter in the number of processes you would like to run" << std::endl;
+  int totalProcesses = grabNum(); 
+  std::cout << "Please enter in the number of threads you wish to use (Atleast 1 per process)" << std::endl;
+  int availableThreads = grabNum();
+  availableThreads = availableThreads / totalProcesses;
+  std::cout << availableThreads << std::endl;
+
+  std::string tmpCmd = assemblyPrompt();
+  char *testCmd = (char*) tmpCmd.c_str();
   char **arguments = argsPrompt("2");
+
   char outDir[] = "-o";
-  char outDirP[] = "Threads_Test_4";
+  char outDirP[] = "Threads_Test_3";
   char file1Indicator[] = "-1";
   char file2Indicator[] = "-2";
   char file1[] = "-1";
@@ -48,7 +57,7 @@ int main(int argc, char *argv[]){
   
   cpuStart = clock(); // Cpu start time
   gettimeofday(&myTimer, NULL); // Start time
-  processVector.emplace_back(new process(testCmd, procArgs));
+  processVector.emplace_back(new process(testCmd, arguments));
 
   waitpid(processVector[0]->myID, &status, 0); // Wait for the process to die
   gettimeofday(&secondTimer, NULL); // End time
@@ -63,5 +72,4 @@ int main(int argc, char *argv[]){
   std::cout << "Time elapsed: " << timeDiffSec << " seconds, and " << timeDiffMicro << " microseconds." << std::endl;
   std::cout << "Cpu ticks elapsed: " << cpuEnd - cpuStart << std::endl;
   std::cout << "Threads available: " << std::thread::hardware_concurrency() << std::endl;
- 
 }
