@@ -33,6 +33,7 @@ int status;
 
 int main(int argc, char *argv[]){
   char *testCmd = (char*) assemblyPrompt().c_str();
+  char **arguments = argsPrompt("2");
   char outDir[] = "-o";
   char outDirP[] = "Threads_Test_4";
   char file1Indicator[] = "-1";

@@ -12,8 +12,8 @@
 
 int* mainMenu();
 std::string assemblyPrompt();
-char** argsPrompt();
-int inFilePrompt(std::string cmd);
+char** argsPrompt(std::string allowedThreads);
+int inFilePrompt();
 int grabNum();
 
 #endif
